@@ -1,0 +1,26 @@
+
+PS C:\Users\mrubi\GolandProjects\SkokieJobs>  go mod init myproject
+go: creating new go.mod: module myproject
+PS C:\Users\mrubi\GolandProjects\SkokieJobs> go get github.com/microsoft/go-mssqldb
+go: added github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9
+go: added github.com/golang-sql/sqlexp v0.1.0
+go: added github.com/google/uuid v1.6.0
+go: added github.com/microsoft/go-mssqldb v1.9.3
+go: added golang.org/x/crypto v0.38.0
+go: added golang.org/x/text v0.25.0
+PS C:\Users\mrubi\GolandProjects\SkokieJobs> type go.mod
+module myproject
+
+go 1.24.3
+
+require (
+        github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
+        github.com/golang-sql/sqlexp v0.1.0 // indirect
+        github.com/google/uuid v1.6.0 // indirect
+        github.com/microsoft/go-mssqldb v1.9.3 // indirect
+        golang.org/x/crypto v0.38.0 // indirect
+        golang.org/x/text v0.25.0 // indirect
+)
+PS C:\Users\mrubi\GolandProjects\SkokieJobs> go build
+no Go files in C:\Users\mrubi\GolandProjects\SkokieJobs
+PS C:\Users\mrubi\GolandProjects\SkokieJobs>
