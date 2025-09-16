@@ -24,3 +24,49 @@ require (
 PS C:\Users\mrubi\GolandProjects\SkokieJobs> go build
 no Go files in C:\Users\mrubi\GolandProjects\SkokieJobs
 PS C:\Users\mrubi\GolandProjects\SkokieJobs>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------
+After cloning a repo
+
+If someone else clones your project, they don’t run go mod init again.
+
+They just run:
+
+go mod tidy
+
+
+or
+
+go build
+
+
+Go will read the existing go.mod and go.sum, download the needed dependencies, and set things up.
+
+ When to use go mod init again
+
+Only if you are starting a brand new module (a fresh project).
+
+If you already have go.mod in source control, running go mod init again would give an error like:
+
+go: go.mod already exists
+
+
+ So the rule of thumb: Commit go.mod and go.sum, and no one needs to run go mod init again.
+Instead, they just use go build, go run, or go mod tidy.
