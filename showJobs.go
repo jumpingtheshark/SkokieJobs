@@ -3,15 +3,38 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
 func ShowJob(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Fprintf(w, "showjob endpointgo  ")
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	parts := strings.Split(r.URL.Path, "/")
 	length := len(parts)
 	id := parts[length-1]
+	//fmt.Fprintf(w, id)
+	query := "select * from jobs.dbo.jobs where id =" + id
+
+	row := getARow(query)
+	fmt.Fprintf(w, "<html><body>")
+
+	var dbid int
+	var jobTitle string
+	var jobDescription string
+	var email string
+	row.Scan(&dbid, &jobTitle, &jobDescription, &email)
+
+	fmt.Fprintf(w, strconv.Itoa(dbid)+"<br>")
+	fmt.Fprintf(w, jobTitle+"<br>")
+	fmt.Fprintf(w, jobDescription+"<br>")
+	fmt.Fprintf(w, email)
+
+	fmt.Fprintf(w, "</body></html>")
+
+}
+
+/*
 	fmt.Fprintf(w, id)
 	fmt.Println(length)
 	fmt.Println(parts)
@@ -21,45 +44,4 @@ func ShowJob(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.URL.Host)
 	fmt.Println(r.URL.Path)
 	fmt.Println(r.URL.RequestURI())
-
-}
-
-/*
-
-package main
-
-import (
-	"fmt"
-	"log"
-	"net/http"
-	"strconv"
-	"strings"
-)
-
-// Handler that extracts an integer ID from the URL path
-func getByIDHandler(w http.ResponseWriter, r *http.Request) {
-	// Example URL: /item/123
-	parts := strings.Split(r.URL.Path, "/")
-	if len(parts) < 3 {
-		http.Error(w, "missing id", http.StatusBadRequest)
-		return
-	}
-
-	idStr := parts[2]
-	id, err := strconv.Atoi(idStr)
-	if err != nil {
-		http.Error(w, "invalid id", http.StatusBadRequest)
-		return
-	}
-
-	fmt.Fprintf(w, "You requested item with ID: %d\n", id)
-}
-
-func main() {
-	http.HandleFunc("/item/", getByIDHandler)
-	log.Println("Server starting on :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
-}
-
-
 */
