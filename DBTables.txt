@@ -1,0 +1,98 @@
+USE [jobs]
+GO
+
+/****** Object:  Table [dbo].[Villages]    Script Date: 9/21/2025 1:12:25 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Villages](
+	[VillageID] [int] NULL,
+	[VillageName] [varchar](256) NULL
+) ON [PRIMARY]
+GO
+
+
+
+
+
+
+
+
+USE [jobs]
+GO
+
+/****** Object:  Table [dbo].[CompanyEmails]    Script Date: 9/21/2025 1:12:17 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[CompanyEmails](
+	[CompanyID] [int] NULL,
+	[Email] [varchar](256) NULL
+) ON [PRIMARY]
+GO
+
+
+
+
+
+
+
+
+
+
+USE [jobs]
+GO
+
+/****** Object:  Table [dbo].[Companies]    Script Date: 9/21/2025 1:12:08 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Companies](
+	[CompanyID] [int] IDENTITY(1,1) NOT NULL,
+	[CompanyName] [text] NOT NULL,
+	[VillageID] [int] NOT NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+
+
+
+
+
+
+
+
+USE [jobs]
+GO
+
+/****** Object:  Table [dbo].[jobs]    Script Date: 9/21/2025 1:14:18 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[jobs](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[companyID] [int] NOT NULL,
+	[jobTitle] [varchar](256) NOT NULL,
+	[jobDescription] [text] NOT NULL,
+	[email] [varchar](256) NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+
+
+
+

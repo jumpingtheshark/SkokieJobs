@@ -6,6 +6,7 @@ import (
 
 func main() {
 
+	RunConfig()
 	DBPing()
 	RunServer()
 }
