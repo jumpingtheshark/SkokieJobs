@@ -21,25 +21,21 @@ func ShowJob(w http.ResponseWriter, r *http.Request) {
 	data, _ := os.ReadFile("showJob.txt")
 	jobTemplate := string(data)
 
-	//fmt.Fprintf(w, "<html><body>")
+	job := Job{}
+	row.Scan(
+		&job.ID,
+		&job.CompanyID,
+		&job.JobTitle,
+		&job.JobDescription,
+		&job.Email)
 
-	var dbid int
-	var companyID int
-	var jobTitle string
-	var jobDescription string
-	var email string
-	row.Scan(&dbid, &companyID, &jobTitle, &jobDescription, &email)
-	jobTemplate = strings.ReplaceAll(jobTemplate, "$title", jobTitle)
-	jobTemplate = strings.ReplaceAll(jobTemplate, "$description", jobDescription)
-	jobTemplate = strings.ReplaceAll(jobTemplate, "$jobID", strconv.Itoa(dbid))
+	jobTemplate = strings.ReplaceAll(jobTemplate, "$title", job.JobTitle)
+	jobTemplate = strings.ReplaceAll(jobTemplate, "$description", job.JobDescription)
+	jobTemplate = strings.ReplaceAll(jobTemplate, "$jobID", strconv.Itoa(job.ID))
+	jobTemplate = strings.ReplaceAll(jobTemplate, "$email", job.Email)
+	jobTemplate = strings.ReplaceAll(jobTemplate, "$companyID",
+		strconv.Itoa(job.CompanyID))
 	fmt.Fprintf(w, jobTemplate)
-
-	//fmt.Fprintf(w, strconv.Itoa(dbid)+"<br>")
-	//fmt.Fprintf(w, jobTitle+"<br>")
-	//fmt.Fprintf(w, jobDescription+"<br>")
-	//fmt.Fprintf(w, email)
-
-	//fmt.Fprintf(w, "</body></html>")
 
 }
 

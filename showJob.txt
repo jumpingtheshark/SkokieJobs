@@ -11,9 +11,12 @@ $description
 <p>
 $jobID
 </p>
-
 <p>
 $email
 </p>
+<p>
+$companyID
+</p>
+
 </body>
 </html>
