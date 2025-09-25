@@ -8,6 +8,7 @@ import (
 func RunServer() {
 	http.HandleFunc("/hello", hello)
 	http.HandleFunc("/job/", ShowJob)
+	http.HandleFunc("/alljobs", AllJobs)
 
 	http.ListenAndServe(":8080", nil)
 }

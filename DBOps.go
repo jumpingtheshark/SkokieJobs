@@ -28,11 +28,16 @@ func DBPing() {
 
 }
 
-func getRows(query string) (rows *sql.Rows) {
+func getRows(query string) (rows *sql.Rows, rowCount int) {
 	db, _ := sql.Open("sqlserver", Config.dsn)
 	defer db.Close()
 	rows, _ = db.Query(query)
-	return rows
+	i := 0
+	for rows.Next() {
+		i++
+	}
+	rows, _ = db.Query(query)
+	return rows, i
 }
 
 func getARow(query string) (row *sql.Row) {
