@@ -1,7 +1,8 @@
-
-CREATE TABLE [dbo].[Companies]
+CREATE TABLE [dbo].[jobs]
 (
-    [CompanyID] [int],
-    [CompanyName] [text] ,
-    [VillageID] [int]
-)
+    [id] [int],
+    [companyID] [int] ,
+    [jobTitle] [varchar](256) ,
+    [jobDescription] [text] ,
+    [email] [varchar](256)
+    )

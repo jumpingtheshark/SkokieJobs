@@ -41,6 +41,6 @@ func AllJobs(w http.ResponseWriter, r *http.Request) {
 	data, _ = os.ReadFile(wd + "/UI/ShowJobs/outer.html")
 	outerHtmlTemplate := string(data)
 	outerHtmlTemplate = strings.ReplaceAll(outerHtmlTemplate, "$inner", bigInner)
-	fmt.Fprintf(w, outerHtmlTemplate)
+	fmt.Fprint(w, outerHtmlTemplate)
 
 }

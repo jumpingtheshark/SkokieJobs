@@ -29,13 +29,17 @@ func ShowJob(w http.ResponseWriter, r *http.Request) {
 		&job.JobDescription,
 		&job.Email)
 
-	jobTemplate = strings.ReplaceAll(jobTemplate, "$title", job.JobTitle)
-	jobTemplate = strings.ReplaceAll(jobTemplate, "$description", job.JobDescription)
-	jobTemplate = strings.ReplaceAll(jobTemplate, "$jobID", strconv.Itoa(job.ID))
-	jobTemplate = strings.ReplaceAll(jobTemplate, "$email", job.Email)
-	jobTemplate = strings.ReplaceAll(jobTemplate, "$companyID",
-		strconv.Itoa(job.CompanyID))
-	fmt.Fprintf(w, jobTemplate)
+	jobTemplate = strings.ReplaceAll(jobTemplate,
+		"$title", job.JobTitle)
+	jobTemplate = strings.ReplaceAll(jobTemplate,
+		"$description", job.JobDescription)
+	jobTemplate = strings.ReplaceAll(jobTemplate,
+		"$jobID", strconv.Itoa(job.ID))
+	jobTemplate = strings.ReplaceAll(jobTemplate,
+		"$email", job.Email)
+	jobTemplate = strings.ReplaceAll(jobTemplate,
+		"$companyID", strconv.Itoa(job.CompanyID))
+	fmt.Fprint(w, jobTemplate)
 
 }
 
