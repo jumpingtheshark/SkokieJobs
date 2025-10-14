@@ -9,3 +9,8 @@ func TestJobsID(t *testing.T) {
 	t.Log(i)
 
 }
+
+func TestGetMaxJobID(t *testing.T) {
+	i := getMaxJobID()
+	println(i)
+}

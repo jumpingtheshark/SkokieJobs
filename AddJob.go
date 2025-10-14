@@ -75,11 +75,11 @@ func AddJobPost(w http.ResponseWriter, r *http.Request) {
 
 	title := r.FormValue("jobTitle")
 	desc := r.FormValue("jobDescription")
-
+	jobID := getMaxJobID()
 	const insert = `
-INSERT INTO dbo.Jobs (CompanyID, JobTitle, JobDescription, Email)
-VALUES (@p1, @p2, @p3, @p4);`
+INSERT INTO dbo.Jobs (JobId, CompanyID, JobTitle, JobDescription, Email)
+VALUES (@p1, @p2, @p3, @p4, @p5);`
 
-	insertUpdate(insert, companyID, title, desc)
+	insertUpdate(insert, jobID, companyID, title, desc)
 
 }

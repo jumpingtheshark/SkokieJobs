@@ -28,7 +28,7 @@ func addCompanyPost(w http.ResponseWriter, r *http.Request) {
 	)
 
 	insertUpdate(insert, "", "", "")
-	fmt.Fprintf(w, companyName+" added")
+	fmt.Fprint(w, companyName+" added")
 
 }
 
