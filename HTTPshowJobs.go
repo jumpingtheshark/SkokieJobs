@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"myproject/entities"
 	"net/http"
 	"os"
 	"strconv"
@@ -21,7 +22,7 @@ func ShowJob(w http.ResponseWriter, r *http.Request) {
 	data, _ := os.ReadFile("showJob.txt")
 	jobTemplate := string(data)
 
-	job := Job{}
+	job := entities.Job{}
 	row.Scan(
 		&job.ID,
 		&job.CompanyID,

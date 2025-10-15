@@ -5,8 +5,9 @@ import (
 	"html"
 	"myproject/entities"
 	_ "myproject/entities"
+	"myproject/utils"
+	_ "myproject/utils"
 	"net/http"
-	"strconv"
 	"strings"
 )
 
@@ -77,16 +78,19 @@ func AddJobPost(w http.ResponseWriter, r *http.Request) {
 	}
 	newJob := entities.Job{}
 
-	newJob.CompanyID, _ = strconv.Atoi(r.FormValue("companyID"))
+	newJob.CompanyID = utils.String2int(r.FormValue("companyID"))
 
 	newJob.JobTitle = r.FormValue("jobTitle")
 
-	//title := r.FormValue("jobTitle")
-	//desc := r.FormValue("jobDescription")
-	//jobID := getMaxJobID()
-	const insert = `
-INSERT INTO dbo.Jobs (JobId, CompanyID, JobTitle, JobDescription, Email)
-VALUES (@p1, @p2, @p3, @p4, @p5);`
+	newJob.JobDescription = r.FormValue("jobDescription")
+	newJob.ID = getMaxJobID() + 1
+	newJob.Email = r.FormValue("email")
+	newJob.VillageID = 1 //we'll just keep in Skokie for now I guess
+	insertString := newJob.InsertString()
+	inserted := insertUpdate2(insertString)
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.Write([]byte(
+		utils.Bigint2string(inserted) + "Job added"))
 
 	//	insertUpdate(insert, jobID, companyID, title, desc)
 

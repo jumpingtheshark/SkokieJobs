@@ -58,6 +58,21 @@ func getARow(query string) (row *sql.Row) {
 	return row
 }
 
+func insertUpdate2(sqlCommand string) int64 {
+	db, err := sql.Open("sqlserver", Config.dsn)
+	if err != nil {
+		log.Fatal(err)
+		println("db object failed")
+	}
+	defer db.Close()
+	exec, err := db.Exec(sqlCommand)
+	if err != nil {
+		return -1
+	}
+	rows, _ := exec.RowsAffected()
+	println(rows)
+	return rows
+}
 func insertUpdate(query string, id string, title string, desc string) {
 	db, err := sql.Open("sqlserver", Config.dsn)
 	if err != nil {

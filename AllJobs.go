@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"myproject/entities"
 	"net/http"
 	"os"
 	"strconv"
@@ -19,10 +20,10 @@ func AllJobs(w http.ResponseWriter, r *http.Request) {
 	data, _ := os.ReadFile(wd + "/UI/ShowJobs/inner.html")
 	htmlTemplate := string(data)
 	bigInner := ""
-	var job Job
+	var job entities.Job
 	for rows.Next() {
 		htmlRow := htmlTemplate
-		job = Job{}
+		job = entities.Job{}
 		rows.Scan(
 			&job.ID,
 			&job.CompanyID,
