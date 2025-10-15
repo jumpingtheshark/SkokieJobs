@@ -3,7 +3,10 @@ package main
 import (
 	"fmt"
 	"html"
+	"myproject/entities"
+	_ "myproject/entities"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -68,18 +71,23 @@ func AddJobGet(w http.ResponseWriter, r *http.Request) {
 // POST: process the form and insert a job
 func AddJobPost(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
-		http.Error(w, "bad form", http.StatusBadRequest)
+		http.Error(w, "bad form",
+			http.StatusBadRequest)
 		return
 	}
-	companyID := (r.FormValue("companyID"))
+	newJob := entities.Job{}
 
-	title := r.FormValue("jobTitle")
-	desc := r.FormValue("jobDescription")
-	jobID := getMaxJobID()
+	newJob.CompanyID, _ = strconv.Atoi(r.FormValue("companyID"))
+
+	newJob.JobTitle = r.FormValue("jobTitle")
+
+	//title := r.FormValue("jobTitle")
+	//desc := r.FormValue("jobDescription")
+	//jobID := getMaxJobID()
 	const insert = `
 INSERT INTO dbo.Jobs (JobId, CompanyID, JobTitle, JobDescription, Email)
 VALUES (@p1, @p2, @p3, @p4, @p5);`
 
-	insertUpdate(insert, jobID, companyID, title, desc)
+	//	insertUpdate(insert, jobID, companyID, title, desc)
 
 }
