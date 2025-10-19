@@ -1,16 +1,18 @@
-package main
+package utilsDB
 
 import (
 	"database/sql"
 	"fmt"
 	"log"
+	"myproject/Config"
 )
 
 //var dsn = "server=misha-box;database=testdb;trusted_connection=yes;encrypt=true;TrustServerCertificate=true"
 
 func DBPing() {
 
-	db, err := sql.Open("sqlserver", Config.dsn)
+	db, err := sql.Open("sqlserver", Config.Config.Dsn)
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -28,8 +30,8 @@ func DBPing() {
 
 }
 
-func getRows(query string) (rows *sql.Rows, rowCount int) {
-	db, _ := sql.Open("sqlserver", Config.dsn)
+func GetRows(query string) (rows *sql.Rows, rowCount int) {
+	db, _ := sql.Open("sqlserver", Config.Config.Dsn)
 	defer db.Close()
 
 	//fmt.Printf("%T\n", db)
@@ -42,24 +44,16 @@ func getRows(query string) (rows *sql.Rows, rowCount int) {
 	return rows, i
 }
 
-func getDBInt(query string) (i int) {
-	db, _ := sql.Open("sqlserver", Config.dsn)
+func GetDBInt(query string) (i int) {
+	db, _ := sql.Open("sqlserver", Config.Config.Dsn)
 	defer db.Close()
 	row := db.QueryRow(query)
 	row.Scan(&i)
 	return i
 }
 
-func getARow(query string) (row *sql.Row) {
-	db, _ := sql.Open("sqlserver", Config.dsn)
-	fmt.Printf("%T\n", db)
-	defer db.Close()
-	row = db.QueryRow(query)
-	return row
-}
-
-func insertUpdate2(sqlCommand string) int64 {
-	db, err := sql.Open("sqlserver", Config.dsn)
+func InsertUpdate2(sqlCommand string) int64 {
+	db, err := sql.Open("sqlserver", Config.Config.Dsn)
 	if err != nil {
 		log.Fatal(err)
 		println("db object failed")
@@ -73,8 +67,8 @@ func insertUpdate2(sqlCommand string) int64 {
 	println(rows)
 	return rows
 }
-func insertUpdate(query string, id string, title string, desc string) {
-	db, err := sql.Open("sqlserver", Config.dsn)
+func InsertUpdate(query string, id string, title string, desc string) {
+	db, err := sql.Open("sqlserver", Config.Config.Dsn)
 	if err != nil {
 		log.Fatal(err)
 		println("error in db statement")
@@ -86,4 +80,11 @@ func insertUpdate(query string, id string, title string, desc string) {
 	}
 	rows, _ := exec.RowsAffected()
 	println(rows)
+}
+func GetARow(query string) (row *sql.Row) {
+	db, _ := sql.Open("sqlserver", Config.Config.Dsn)
+	fmt.Printf("%T\n", db)
+	defer db.Close()
+	row = db.QueryRow(query)
+	return row
 }

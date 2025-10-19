@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"myproject/entities"
+	"myproject/utilsDB"
 	"net/http"
 	"os"
 	"strconv"
@@ -18,7 +19,7 @@ func ShowJob(w http.ResponseWriter, r *http.Request) {
 	//fmt.Fprintf(w, id
 	query := "select * from jobs.dbo.jobs where id =" + id
 
-	row := getARow(query)
+	row := utilsDB.GetARow(query)
 	data, _ := os.ReadFile("showJob.txt")
 	jobTemplate := string(data)
 

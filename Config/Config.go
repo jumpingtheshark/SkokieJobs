@@ -1,4 +1,4 @@
-package main
+package Config
 
 import (
 	"encoding/json"
@@ -9,8 +9,8 @@ import (
 var CFG map[string]string
 
 type Configuration struct {
-	dsn    string
-	curdir string
+	Dsn    string
+	Curdir string
 }
 
 var Config Configuration
@@ -30,8 +30,8 @@ func RunConfig() {
 	CFG["curdir"], _ = os.Getwd()
 
 	Config = Configuration{
-		dsn:    CFG["dsn"],
-		curdir: CFG["curdir"],
+		Dsn:    CFG["dsn"],
+		Curdir: CFG["curdir"],
 	}
 	// Access values directly
 	fmt.Println("DSN:", CFG["dsn"])

@@ -2,6 +2,8 @@ package main
 
 import (
 	_ "github.com/microsoft/go-mssqldb" // Blank import for the SQL Server driver
+	"myproject/Config"
+	"myproject/utilsDB"
 )
 
 func main() {
@@ -16,7 +18,7 @@ func main() {
 
 	*/
 
-	RunConfig()
-	DBPing()
+	Config.RunConfig()
+	utilsDB.DBPing()
 	RunServer()
 }

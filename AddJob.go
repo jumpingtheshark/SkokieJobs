@@ -7,6 +7,7 @@ import (
 	_ "myproject/entities"
 	"myproject/utils"
 	_ "myproject/utils"
+	"myproject/utilsDB"
 	"net/http"
 	"strings"
 )
@@ -23,7 +24,7 @@ func AddJob(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func AddJobGet(w http.ResponseWriter, r *http.Request) {
-	rows, _ := getRows(`
+	rows, _ := utilsDB.GetRows(`
 		SELECT CompanyID, CompanyName
 		FROM dbo.Companies
 		ORDER BY CompanyName`)
@@ -85,9 +86,9 @@ func AddJobPost(w http.ResponseWriter, r *http.Request) {
 	newJob.JobDescription = r.FormValue("jobDescription")
 	newJob.ID = getMaxJobID() + 1
 	newJob.Email = r.FormValue("email")
-	newJob.VillageID = 1 //we'll just keep in Skokie for now I guess
+	newJob.VillageID = utilsDB.VillageID(newJob.CompanyID) //we'll just keep in Skokie for now I guess
 	insertString := newJob.InsertString()
-	inserted := insertUpdate2(insertString)
+	inserted := utilsDB.InsertUpdate2(insertString)
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.Write([]byte(
 		utils.Bigint2string(inserted) + "Job added"))

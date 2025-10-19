@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"myproject/utilsDB"
 	"net/http"
 	"os"
 	"strconv"
@@ -27,7 +28,7 @@ func addCompanyPost(w http.ResponseWriter, r *http.Request) {
 		id, companyName,
 	)
 
-	insertUpdate(insert, "", "", "")
+	utilsDB.InsertUpdate(insert, "", "", "")
 	fmt.Fprint(w, companyName+" added")
 
 }
