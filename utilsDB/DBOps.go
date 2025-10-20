@@ -3,6 +3,7 @@ package utilsDB
 import (
 	"database/sql"
 	"fmt"
+	_ "github.com/microsoft/go-mssqldb"
 	"log"
 	"myproject/Config"
 )
@@ -30,18 +31,18 @@ func DBPing() {
 
 }
 
-func GetRows(query string) (rows *sql.Rows, rowCount int) {
-	db, _ := sql.Open("sqlserver", Config.Config.Dsn)
+func GetRows(query string) (rows *sql.Rows) {
+	conString := Config.Config.Dsn
+	db, _ := sql.Open("sqlserver", conString)
 	defer db.Close()
 
 	//fmt.Printf("%T\n", db)
-	rows, _ = db.Query(query)
-	i := 0
-	for rows.Next() {
-		i++
+	rows, err := db.Query(query)
+	if err != nil {
+		println("error DBOps.GetRows()")
+		return
 	}
-	rows, _ = db.Query(query)
-	return rows, i
+	return rows
 }
 
 func GetDBInt(query string) (i int) {

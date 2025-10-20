@@ -1,26 +1,25 @@
-package main
+package utilsDB
 
 import (
 	"database/sql"
 	"myproject/Config"
-	"myproject/utilsDB"
 )
 
 func JobsID() int {
 	sqlstring := "select max(ID) from Jobs"
-	i := utilsDB.GetDBInt(sqlstring)
+	i := GetDBInt(sqlstring)
 	i++
 	return i
 }
 
 func CompanyID() int {
 	sqlstring := "select max(companyid) from Companies"
-	i := utilsDB.GetDBInt(sqlstring)
+	i := GetDBInt(sqlstring)
 	i++
 	return i
 }
 
-func getMaxJobID() int {
+func GetMaxJobID() int {
 	sqlstring := "select max(ID) from jobs.dbo.jobs"
 	db, _ := sql.Open("sqlserver", Config.Config.Dsn)
 	defer db.Close()

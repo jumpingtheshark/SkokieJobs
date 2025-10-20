@@ -24,7 +24,7 @@ func AddJob(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func AddJobGet(w http.ResponseWriter, r *http.Request) {
-	rows, _ := utilsDB.GetRows(`
+	rows := utilsDB.GetRows(`
 		SELECT CompanyID, CompanyName
 		FROM dbo.Companies
 		ORDER BY CompanyName`)
@@ -84,7 +84,7 @@ func AddJobPost(w http.ResponseWriter, r *http.Request) {
 	newJob.JobTitle = r.FormValue("jobTitle")
 
 	newJob.JobDescription = r.FormValue("jobDescription")
-	newJob.ID = getMaxJobID() + 1
+	newJob.ID = utilsDB.GetMaxJobID() + 1
 	newJob.Email = r.FormValue("email")
 	newJob.VillageID = utilsDB.VillageID(newJob.CompanyID) //we'll just keep in Skokie for now I guess
 	insertString := newJob.InsertString()

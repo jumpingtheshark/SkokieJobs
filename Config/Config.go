@@ -8,6 +8,9 @@ import (
 
 var CFG map[string]string
 
+var ConfigPath = "c:\\Users\\mrubi\\GolandProjects\\SkokieJobs\\config.json"
+var CurDir, _ = os.Getwd()
+
 type Configuration struct {
 	Dsn    string
 	Curdir string
@@ -17,7 +20,8 @@ var Config Configuration
 
 func RunConfig() {
 	// Read file
-	data, err := os.ReadFile("config.json")
+
+	data, err := os.ReadFile(ConfigPath)
 	if err != nil {
 		panic(err)
 	}

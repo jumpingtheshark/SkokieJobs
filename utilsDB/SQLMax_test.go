@@ -1,6 +1,8 @@
-package main
+package utilsDB
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestJobsID(t *testing.T) {
 
@@ -11,6 +13,6 @@ func TestJobsID(t *testing.T) {
 }
 
 func TestGetMaxJobID(t *testing.T) {
-	i := getMaxJobID()
+	i := GetMaxJobID()
 	println(i)
 }

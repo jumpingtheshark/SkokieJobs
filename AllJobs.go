@@ -38,8 +38,7 @@ func AllJobs(w http.ResponseWriter, r *http.Request) {
 func getAllJobs() []entities.Job {
 	query := "select * from jobs.dbo.jobs"
 	jobs := []entities.Job{}
-	rows, rowcount := utilsDB.GetRows(query)
-	print(rowcount)
+	rows := utilsDB.GetRows(query)
 	defer rows.Close()
 	for rows.Next() {
 		job := entities.Job{}

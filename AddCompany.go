@@ -22,7 +22,7 @@ func AddCompany(w http.ResponseWriter, r *http.Request) {
 func addCompanyPost(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	companyName := r.FormValue("companyName")
-	id := strconv.Itoa(CompanyID())
+	id := strconv.Itoa(utilsDB.CompanyID())
 	insert := fmt.Sprintf(
 		"INSERT INTO Companies (CompanyID, CompanyName, villageID) VALUES (%s, '%s', 1)",
 		id, companyName,
