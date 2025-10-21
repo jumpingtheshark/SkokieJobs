@@ -16,20 +16,16 @@ func ShowJob(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.URL.Path, "/")
 	length := len(parts)
 	id := parts[length-1]
-	//fmt.Fprintf(w, id
-	query := "select * from jobs.dbo.jobs where id =" + id
 
-	row := utilsDB.GetARow(query)
+	job := FillData(id)
+	output := BuildOutputString(job)
+	fmt.Fprint(w, output)
+
+}
+func BuildOutputString(job entities.Job) string {
+
 	data, _ := os.ReadFile("showJob.txt")
 	jobTemplate := string(data)
-
-	job := entities.Job{}
-	row.Scan(
-		&job.ID,
-		&job.CompanyID,
-		&job.JobTitle,
-		&job.JobDescription,
-		&job.Email)
 
 	jobTemplate = strings.ReplaceAll(jobTemplate,
 		"$title", job.JobTitle)
@@ -41,8 +37,32 @@ func ShowJob(w http.ResponseWriter, r *http.Request) {
 		"$email", job.Email)
 	jobTemplate = strings.ReplaceAll(jobTemplate,
 		"$companyID", strconv.Itoa(job.CompanyID))
-	fmt.Fprint(w, jobTemplate)
+	return jobTemplate
+}
+func FillData(id string) entities.Job {
 
+	job := entities.Job{}
+	query := `select id,
+       companyID,
+       jobTitle,
+       jobDescription,
+       email,
+       villageID
+       from 
+           jobs.dbo.jobs where id =`
+	query = query + id
+	row := utilsDB.GetRows(query)
+	for row.Next() {
+		row.Scan(
+			&job.ID,
+			&job.CompanyID,
+			&job.JobTitle,
+			&job.JobDescription,
+			&job.Email,
+			&job.VillageID)
+
+	}
+	return job
 }
 
 /*

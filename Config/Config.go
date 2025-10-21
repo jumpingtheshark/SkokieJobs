@@ -8,7 +8,8 @@ import (
 
 var CFG map[string]string
 
-var ConfigPath = "c:\\Users\\mrubi\\GolandProjects\\SkokieJobs\\config.json"
+var ConfigPath = BaseDirPath + "\\config.json"
+var BaseDirPath = "c:\\Users\\mrubi\\GolandProjects\\SkokieJobs\\"
 var CurDir, _ = os.Getwd()
 
 type Configuration struct {

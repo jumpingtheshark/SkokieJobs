@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"myproject/Config"
 	"myproject/entities"
 	"myproject/utilsDB"
 	"net/http"
@@ -13,12 +14,25 @@ import (
 func AllJobs(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	jobs := getAllJobs()
+	bigInner := BuildInnerRows(jobs)
+	totalPage := BuildOuterRows(bigInner)
+	fmt.Fprint(w, totalPage)
 
-	wd, _ := os.Getwd()
+}
+func BuildOuterRows(bigInner string) string {
+	wd := Config.BaseDirPath
+	data, _ := os.ReadFile(wd + "/UI/ShowJobs/outer.html")
+	outerHtmlTemplate := string(data)
+	outerHtmlTemplate = strings.ReplaceAll(outerHtmlTemplate, "$inner", bigInner)
+	return outerHtmlTemplate
+}
+
+func BuildInnerRows(jobs []entities.Job) string {
+	wd := Config.BaseDirPath
 	data, _ := os.ReadFile(wd + "/UI/ShowJobs/inner.html")
 	htmlTemplate := string(data)
 	bigInner := ""
-	jobs := getAllJobs()
 	for _, job := range jobs {
 		htmlRow := htmlTemplate
 		htmlRow = strings.ReplaceAll(htmlRow, "$jobid", strconv.Itoa(job.ID))
@@ -27,14 +41,11 @@ func AllJobs(w http.ResponseWriter, r *http.Request) {
 		htmlRow = strings.ReplaceAll(htmlRow, "$jobtitle", job.JobTitle)
 		htmlRow = strings.ReplaceAll(htmlRow, "$jobdescription", job.JobDescription)
 		bigInner += htmlRow
+	}
 
-	} //for rows.
-	data, _ = os.ReadFile(wd + "/UI/ShowJobs/outer.html")
-	outerHtmlTemplate := string(data)
-	outerHtmlTemplate = strings.ReplaceAll(outerHtmlTemplate, "$inner", bigInner)
-	fmt.Fprint(w, outerHtmlTemplate)
-
+	return bigInner
 }
+
 func getAllJobs() []entities.Job {
 	query := "select * from jobs.dbo.jobs"
 	jobs := []entities.Job{}
@@ -47,7 +58,8 @@ func getAllJobs() []entities.Job {
 			&job.CompanyID,
 			&job.JobTitle,
 			&job.JobDescription,
-			&job.Email)
+			&job.Email,
+			&job.VillageID)
 		jobs = append(jobs, job)
 	}
 	return jobs
