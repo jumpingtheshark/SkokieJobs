@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"myproject/Config"
+	"myproject/LongSQL"
 	"myproject/entities"
 	"myproject/utilsDB"
 	"net/http"
@@ -36,10 +37,12 @@ func BuildInnerRows(jobs []entities.Job) string {
 	for _, job := range jobs {
 		htmlRow := htmlTemplate
 		htmlRow = strings.ReplaceAll(htmlRow, "$jobid", strconv.Itoa(job.ID))
-		htmlRow = strings.ReplaceAll(htmlRow, "$companyid",
-			strconv.Itoa(job.CompanyID))
-		htmlRow = strings.ReplaceAll(htmlRow, "$jobtitle", job.JobTitle)
-		htmlRow = strings.ReplaceAll(htmlRow, "$jobdescription", job.JobDescription)
+		htmlRow = strings.ReplaceAll(htmlRow, "$companyName", job.CompanyName)
+		htmlRow = strings.ReplaceAll(htmlRow, "$jobTitle", job.JobTitle)
+		htmlRow = strings.ReplaceAll(htmlRow, "$jobDescription", job.JobDescription)
+		htmlRow = strings.ReplaceAll(htmlRow, "$villageName", job.VillageName)
+		htmlRow = strings.ReplaceAll(htmlRow, "$postedDate", job.DatePosted.String())
+
 		bigInner += htmlRow
 	}
 
@@ -47,7 +50,7 @@ func BuildInnerRows(jobs []entities.Job) string {
 }
 
 func getAllJobs() []entities.Job {
-	query := "select * from jobs.dbo.jobs"
+	query := LongSQL.AllJobs()
 	jobs := []entities.Job{}
 	rows := utilsDB.GetRows(query)
 	defer rows.Close()
@@ -55,11 +58,11 @@ func getAllJobs() []entities.Job {
 		job := entities.Job{}
 		rows.Scan(
 			&job.ID,
-			&job.CompanyID,
+			&job.CompanyName,
 			&job.JobTitle,
 			&job.JobDescription,
-			&job.Email,
-			&job.VillageID)
+			&job.VillageName,
+			&job.DatePosted)
 		jobs = append(jobs, job)
 	}
 	return jobs

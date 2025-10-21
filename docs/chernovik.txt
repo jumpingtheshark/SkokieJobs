@@ -1,0 +1,30 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+func AllJobs() string {
+	s := `
+
+	select id,
+		c.CompanyName,
+		jobTitle,
+		jobDescription,
+		datePosted,
+		v.VillageName
+		from
+		jobs.dbo.jobs j
+		inner join jobs.dbo.Companies c on j.companyID=c.CompanyID
+		inner join jobs.dbo.Villages v on c.villageID=v.VillageID
+`
+	return s
+}

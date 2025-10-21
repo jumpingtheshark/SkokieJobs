@@ -1,14 +1,24 @@
 package entities
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 type Job struct {
 	ID             int
 	CompanyID      int
+	CompanyName    string
 	JobTitle       string
 	JobDescription string
 	Email          string
 	VillageID      int
+	VillageName    string
+	DatePosted     time.Time
+	DateLastEdited time.Time
+	PostedBy       string
+	LastEditedBy   string
+	PostingURL     string
 }
 
 func (j *Job) InsertString() string {
