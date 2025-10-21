@@ -1,0 +1,38 @@
+Option 1 — Traditional Form Submission (POST or GET)
+
+You don’t even need JavaScript for this one — just give
+the <form> a proper action and method.
+
+    <form action="/submit-color" method="post">
+        <table border="1" cellpadding="6">
+            <tr>
+                <th>Color</th>
+                <th>Description</th>
+                <th>Select</th>
+            </tr>
+            <tr>
+                <td>Red</td>
+                <td>Warm, bold, and energetic</td>
+                <td><input type="radio" name="color" value="Red"></td>
+            </tr>
+            <tr>
+                <td>Green</td>
+                <td>Fresh, calm, and natural</td>
+                <td><input type="radio" name="color" value="Green"></td>
+            </tr>
+            <tr>
+                <td>Blue</td>
+                <td>Cool, peaceful, and trustworthy</td>
+                <td><input type="radio" name="color" value="Blue"></td>
+            </tr>
+        </table>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+
+
+    Change /submit-color to your actual endpoint.
+
+    If you use method="get", it’ll submit to /submit-color?color=Red (etc).
+
+    If you use method="post", it’ll send the value in the request body.
