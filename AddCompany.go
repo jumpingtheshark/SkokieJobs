@@ -2,10 +2,12 @@ package main
 
 import (
 	"fmt"
+	"myproject/UI/UIComponents"
 	"myproject/utilsDB"
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func AddCompany(w http.ResponseWriter, r *http.Request) {
@@ -38,6 +40,7 @@ func addCompanyGet(w http.ResponseWriter, r *http.Request) {
 	cwd, _ := os.Getwd()
 	data, _ := os.ReadFile(cwd + "/UI/AddCompany/AddCompany.html")
 	payload := string(data)
+	villagesDDL := UIComponents.VillagesDDL()
+	payload = strings.ReplaceAll(payload, "$villagesDDL", villagesDDL)
 	fmt.Fprint(w, payload)
-
 }

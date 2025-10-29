@@ -2,10 +2,18 @@ package utils
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 )
 
-func LoadFile() {}
+func LoadFile(fpath string) string {
+	data, err := os.ReadFile(fpath)
+	if err != nil {
+		panic(err)
+	}
+	rval := string(data)
+	return rval
+}
 func String2int(s string) int {
 	num, err := strconv.Atoi(s) // converts string to int
 	if err != nil {
