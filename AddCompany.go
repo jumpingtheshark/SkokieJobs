@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"myproject/UI/UIComponents"
+	"myproject/entities"
 	"myproject/utilsDB"
 	"net/http"
 	"os"
@@ -22,16 +23,34 @@ func AddCompany(w http.ResponseWriter, r *http.Request) {
 }
 
 func addCompanyPost(w http.ResponseWriter, r *http.Request) {
+	c := entities.Company{}
+
 	r.ParseForm()
-	companyName := r.FormValue("companyName")
-	id := strconv.Itoa(utilsDB.CompanyID())
+	c.CompanyName = r.FormValue("companyName")
+	c.Id = strconv.Itoa(utilsDB.CompanyID())
+	c.VillageID = r.FormValue("villages")
+	c.AddressLine1 = r.FormValue("addressLine1")
+	c.AddressLine2 = r.FormValue("addressLine2")
+	c.Zip = r.FormValue("zip")
 	insert := fmt.Sprintf(
-		"INSERT INTO Companies (CompanyID, CompanyName, villageID) VALUES (%s, '%s', 1)",
-		id, companyName,
-	)
+		`INSERT INTO Companies 
+    		(CompanyID, 
+    		 CompanyName, 
+    		 villageID,
+    		 AddressLine1,
+    		 AddressLine2,
+    		 zip) 
+			VALUES 
+			(%s, '%s', %s, '%s', '%s', '%s')`,
+		c.Id,
+		c.CompanyName,
+		c.VillageID,
+		c.AddressLine1,
+		c.AddressLine2,
+		c.Zip)
 
 	utilsDB.InsertUpdate(insert, "", "", "")
-	fmt.Fprint(w, companyName+" added")
+	fmt.Fprint(w, c.CompanyName+" added")
 
 }
 

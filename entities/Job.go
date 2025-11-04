@@ -21,6 +21,7 @@ type Job struct {
 	PostingURL     string
 }
 
+// to do - change this into full out insert and then keep updating 3 by 3.
 func (j *Job) InsertString() string {
 
 	insert := `

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"html"
+	"myproject/Config"
 	"myproject/entities"
 	_ "myproject/entities"
 	"myproject/utils"
@@ -25,11 +26,13 @@ func AddJob(w http.ResponseWriter, r *http.Request) {
 }
 func AddJobGet(w http.ResponseWriter, r *http.Request) {
 	rows := utilsDB.GetRows(`
-		SELECT CompanyID, CompanyName
+		SELECT CompanyID, 
+		       CompanyName
 		FROM dbo.Companies
 		ORDER BY CompanyName`)
 
 	var options strings.Builder
+
 	for rows.Next() {
 		var id int
 		var name string
@@ -39,37 +42,30 @@ func AddJobGet(w http.ResponseWriter, r *http.Request) {
 				http.StatusInternalServerError)
 			return
 		}
-		fmt.Fprintf(&options, `<option value="%d">%s</option>`, id, html.EscapeString(name))
+		fmt.Fprintf(&options, `<option value="%d">%s</option>`,
+			id, html.EscapeString(name))
 	}
+
 	if err := rows.Err(); err != nil {
 		http.Error(w, "rows error: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	page := `<!doctype html>
-<html>
-  <body>
-    <h2>Add Job</h2>
-    <form method="post" action="/addJob">
-      <label>Company:
-        <select name="companyID" required>
-          ` + options.String() + `
-        </select>
-      </label><br/><br/>
-      <label>Job Title: <input name="jobTitle" required></label><br/><br/>
-      <label>Email: <input name="email" type="email"></label><br/><br/>
-      <label>Description:<br/>
-        <textarea name="jobDescription" rows="6" cols="60"></textarea>
-      </label><br/><br/>
-      <button type="submit">Add</button>
-    </form>
-    <p><a href="/alljobs">Back to all jobs</a></p>
-  </body>
-</html>`
+	page := Template()
+	page = strings.ReplaceAll(page, "$options", options.String())
+
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.Write([]byte(page))
 }
 
+func Template() string {
+	bf := Config.BaseDirPath
+	path := bf + "ui\\addJob\\addJob.html"
+	s := utils.LoadFile(path)
+	return s
+}
+
+// POST!!!!
 // POST: process the form and insert a job
 func AddJobPost(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
@@ -87,6 +83,8 @@ func AddJobPost(w http.ResponseWriter, r *http.Request) {
 	newJob.ID = utilsDB.GetMaxJobID() + 1
 	newJob.Email = r.FormValue("email")
 	newJob.VillageID = utilsDB.VillageID(newJob.CompanyID) //we'll just keep in Skokie for now I guess
+
+	// todo - change this into a on board insert on the object
 	insertString := newJob.InsertString()
 	inserted := utilsDB.InsertUpdate2(insertString)
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")

@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<body>
+<h2>Add Job</h2>
+
+<form method="post" action="/addJob">
+    <label>Company:
+        <select name="companyID" required>
+            $options
+        </select>
+    </label><br/><br/>
+    <label>
+        Job Title: <input name="jobTitle" required>
+    </label>
+    <br/>
+    <br/>
+    <label>
+        Email: <input name="email" type="email">
+    </label>
+    <br/>
+    <br/>
+    <label>Description:<br/>
+        <textarea name="jobDescription" rows="6" cols="60">
+        </textarea>
+    </label>
+    <br/>
+    <br/>
+    <button type="submit">Add</button>
+</form>
+
+<p>
+    <a href="/alljobs">Back to all jobs</a>
+</p>
+</body>
+</html>`
