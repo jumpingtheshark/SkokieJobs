@@ -6,6 +6,12 @@ import (
 	"os"
 )
 
+var UIPaths = struct {
+	JobDetails string
+}{
+	JobDetails: BaseDirPath + "UI\\JobDetails\\JobDetails.html",
+}
+
 var CFG map[string]string
 
 var ConfigPath = BaseDirPath + "\\config.json"

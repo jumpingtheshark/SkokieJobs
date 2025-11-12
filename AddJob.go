@@ -11,6 +11,7 @@ import (
 	"myproject/utilsDB"
 	"net/http"
 	"strings"
+	"time"
 )
 
 // Route handler: dispatch GET vs POST
@@ -76,21 +77,51 @@ func AddJobPost(w http.ResponseWriter, r *http.Request) {
 	newJob := entities.Job{}
 
 	newJob.CompanyID = utils.String2int(r.FormValue("companyID"))
+	newJob.VillageID = utilsDB.VillageID(newJob.CompanyID) //we'll just keep in Skokie for now I guess
 
 	newJob.JobTitle = r.FormValue("jobTitle")
 
 	newJob.JobDescription = r.FormValue("jobDescription")
 	newJob.ID = utilsDB.GetMaxJobID() + 1
 	newJob.Email = r.FormValue("email")
-	newJob.VillageID = utilsDB.VillageID(newJob.CompanyID) //we'll just keep in Skokie for now I guess
+	newJob.PostingURL = r.FormValue("postingURL")
+	newJob.PostedBy = "admin"
+	newJob.InsertMe()
 
-	// todo - change this into a on board insert on the object
-	insertString := newJob.InsertString()
-	inserted := utilsDB.InsertUpdate2(insertString)
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.Write([]byte(
-		utils.Bigint2string(inserted) + "Job added"))
+		utils.Int2string(newJob.ID) + "Job added"))
 
 	//	insertUpdate(insert, jobID, companyID, title, desc)
+
+}
+
+func TryDate() {
+	j := entities.Job{}
+	today := time.Date(
+		time.Now().Year(),
+		time.Now().Month(),
+		time.Now().Day(),
+		0,
+		0,
+		0,
+		0,
+		time.UTC)
+
+	j.DatePosted = today
+	postedString := j.DatePosted.Format("2006-01-02")
+	fmt.Println(j.DatePosted)
+	sql := fmt.Sprintf(`
+		INSERT INTO dbo.jobs (
+		                  id, 
+		                  datePosted
+		                  )
+		VALUES (%s, '%s')
+	`,
+		"999",
+		postedString)
+
+	fmt.Println(sql)
+	utilsDB.InsertUpdate2(sql)
 
 }

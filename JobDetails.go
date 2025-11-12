@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"myproject/Config"
 	"myproject/entities"
+	"myproject/utils"
 	"myproject/utilsDB"
 	"net/http"
 	"os"
@@ -18,10 +20,31 @@ func ShowJob(w http.ResponseWriter, r *http.Request) {
 	id := parts[length-1]
 
 	job := FillData(id)
-	output := BuildOutputString(job)
+	output := BuildOutputString2(job)
 	fmt.Fprint(w, output)
 
 }
+func BuildOutputString2(job entities.Job) string {
+	jobTemplate := GetTemplate()
+	jobTemplate = strings.ReplaceAll(jobTemplate,
+		"$title", job.JobTitle)
+	jobTemplate = strings.ReplaceAll(jobTemplate,
+		"$description", job.JobDescription)
+	jobTemplate = strings.ReplaceAll(jobTemplate,
+		"$jobID", strconv.Itoa(job.ID))
+	jobTemplate = strings.ReplaceAll(jobTemplate,
+		"$email", job.Email)
+	jobTemplate = strings.ReplaceAll(jobTemplate,
+		"$companyID", strconv.Itoa(job.CompanyID))
+	return jobTemplate
+}
+func GetTemplate() string {
+	htmlPath := Config.UIPaths.JobDetails
+	template := utils.LoadFile(htmlPath)
+	return template
+
+}
+
 func BuildOutputString(job entities.Job) string {
 
 	data, _ := os.ReadFile("showJob.txt")

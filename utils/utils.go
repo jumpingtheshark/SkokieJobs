@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"time"
 )
 
 func LoadFile(fpath string) string {
@@ -33,4 +34,23 @@ func Bigint2string(i int64) string {
 
 	str := strconv.FormatInt(i, 10)
 	return str
+}
+
+func Date2string(t time.Time) string {
+	s := t.Format("2006-01-02")
+	return s
+}
+
+func TodayDate() time.Time {
+	today := time.Date(
+		time.Now().Year(),
+		time.Now().Month(),
+		time.Now().Day(),
+		0,
+		0,
+		0,
+		0,
+		time.UTC)
+	return today
+
 }
