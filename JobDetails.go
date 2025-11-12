@@ -5,9 +5,7 @@ import (
 	"myproject/Config"
 	"myproject/entities"
 	"myproject/utils"
-	"myproject/utilsDB"
 	"net/http"
-	"os"
 	"strconv"
 	"strings"
 )
@@ -19,73 +17,57 @@ func ShowJob(w http.ResponseWriter, r *http.Request) {
 	length := len(parts)
 	id := parts[length-1]
 
-	job := FillData(id)
+	//job := FillData(id)
+	job := entities.Job{}
+	job.ID = utils.String2int(id)
+	job.LoadMe()
 	output := BuildOutputString2(job)
 	fmt.Fprint(w, output)
 
 }
 func BuildOutputString2(job entities.Job) string {
 	jobTemplate := GetTemplate()
+
+	//title
 	jobTemplate = strings.ReplaceAll(jobTemplate,
 		"$title", job.JobTitle)
-	jobTemplate = strings.ReplaceAll(jobTemplate,
-		"$description", job.JobDescription)
+
+	//jobID
 	jobTemplate = strings.ReplaceAll(jobTemplate,
 		"$jobID", strconv.Itoa(job.ID))
+
+	//companyName
+	jobTemplate = strings.ReplaceAll(jobTemplate,
+		"$companyName", job.CompanyName)
+
+	//villageName
+	jobTemplate = strings.ReplaceAll(jobTemplate,
+		"$villageName", job.VillageName)
+
+	//postedDate
+	jobTemplate = strings.ReplaceAll(jobTemplate,
+		"$postedDate", job.DatePostedString)
+
+	//description
+	jobTemplate = strings.ReplaceAll(jobTemplate,
+		"$description", job.JobDescription)
+
+	//email
 	jobTemplate = strings.ReplaceAll(jobTemplate,
 		"$email", job.Email)
+
+	//postingURL
 	jobTemplate = strings.ReplaceAll(jobTemplate,
-		"$companyID", strconv.Itoa(job.CompanyID))
+		"$postingURL", job.PostingURL)
+
 	return jobTemplate
 }
+
 func GetTemplate() string {
 	htmlPath := Config.UIPaths.JobDetails
 	template := utils.LoadFile(htmlPath)
 	return template
 
-}
-
-func BuildOutputString(job entities.Job) string {
-
-	data, _ := os.ReadFile("showJob.txt")
-	jobTemplate := string(data)
-
-	jobTemplate = strings.ReplaceAll(jobTemplate,
-		"$title", job.JobTitle)
-	jobTemplate = strings.ReplaceAll(jobTemplate,
-		"$description", job.JobDescription)
-	jobTemplate = strings.ReplaceAll(jobTemplate,
-		"$jobID", strconv.Itoa(job.ID))
-	jobTemplate = strings.ReplaceAll(jobTemplate,
-		"$email", job.Email)
-	jobTemplate = strings.ReplaceAll(jobTemplate,
-		"$companyID", strconv.Itoa(job.CompanyID))
-	return jobTemplate
-}
-func FillData(id string) entities.Job {
-
-	job := entities.Job{}
-	query := `select id,
-       companyID,
-       jobTitle,
-       jobDescription,
-       email,
-       villageID
-       from 
-           jobs.dbo.jobs where id =`
-	query = query + id
-	row := utilsDB.GetRows(query)
-	for row.Next() {
-		row.Scan(
-			&job.ID,
-			&job.CompanyID,
-			&job.JobTitle,
-			&job.JobDescription,
-			&job.Email,
-			&job.VillageID)
-
-	}
-	return job
 }
 
 /*

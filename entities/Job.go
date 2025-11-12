@@ -1,9 +1,11 @@
 package entities
 
 import (
+	"database/sql"
 	"fmt"
 	"myproject/utils"
 	"myproject/utilsDB"
+	"strconv"
 	"time"
 )
 
@@ -31,17 +33,53 @@ func (j *Job) InsertMe() {
 
 }
 
-func (j *Job) LoadMe() {}
+func (j *Job) LoadMe() {
+	query := j.SelectString()
+	dbRow := utilsDB.GetRows(query)
+	j.SetValues(dbRow)
 
+}
+
+func (j *Job) SetValues(dbRow *sql.Rows) {
+	for dbRow.Next() {
+		dbRow.Scan(
+			&j.CompanyID,
+			&j.CompanyName,
+			&j.JobTitle,
+			&j.JobDescription,
+			&j.Email,
+			&j.VillageID,
+			&j.VillageName,
+			&j.DatePosted,
+			&j.PostingURL,
+		)
+
+	}
+
+	j.DatePostedString = utils.Date2string(j.DatePosted)
+
+}
 func (j *Job) SelectString() string {
-	query := `select id,
-       companyID,
+	query := `select
+       j.companyID,
+       c.CompanyName,
        jobTitle,
        jobDescription,
        email,
-       villageID
-       from 
-           jobs.dbo.jobs where id =`
+       j.villageID,
+       v.VillageName,
+      j.datePosted,
+      j.postingURL
+       from  
+           jobs.dbo.jobs j 
+           inner join 
+           jobs.dbo.Companies c 
+           on j.companyID=c.CompanyID
+           inner join jobs.dbo.Villages v
+           on c.VillageID= v.VillageID
+           where j.id =`
+	query = query + strconv.Itoa(j.ID)
+
 	return query
 }
 
@@ -60,7 +98,8 @@ INSERT INTO dbo.Jobs (
                       villageID,
                       DatePosted,
                       postedBy,
-                      PostingURL)
+                      PostingURL,
+                      isActive)
 VALUES (%d, 
         %d, 
         '%s', 
@@ -69,7 +108,8 @@ VALUES (%d,
         %d,
         '%s',
         '%s',
-        '%s');`
+        '%s',
+        %d);`
 
 	insert = fmt.Sprintf(insert,
 		j.ID,
@@ -80,7 +120,9 @@ VALUES (%d,
 		j.VillageID,
 		j.DatePostedString,
 		j.PostedBy,
-		j.PostingURL)
+		j.PostingURL,
+		1,
+	)
 
 	return insert
 }

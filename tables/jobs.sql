@@ -9,5 +9,6 @@ CREATE TABLE [dbo].[jobs](
     [dateLastEdited] [date] NULL,
     [postedBy] [varchar](max) NULL,
     [lastEditedBy] [varchar](max) NULL,
-    [postingURL] [varchar](max) NULL
-    )
+    [postingURL] [varchar](max) NULL,
+    [isActive] [bit] NULL
+    ) 
