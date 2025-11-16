@@ -28,6 +28,8 @@ func ShowJob(w http.ResponseWriter, r *http.Request) {
 func BuildOutputString2(job entities.Job) string {
 	jobTemplate := GetTemplate()
 
+	jobTemplate = strings.ReplaceAll(jobTemplate,
+		"$alljobs", Config.HTTPPaths.AllJobs)
 	//title
 	jobTemplate = strings.ReplaceAll(jobTemplate,
 		"$title", job.JobTitle)

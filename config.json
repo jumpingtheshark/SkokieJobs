@@ -1,3 +1,4 @@
 {
-  "dsn": "server=misha-box;database=jobs;trusted_connection=yes;encrypt=true;TrustServerCertificate=true"
+  "dsn": "server=misha-box;database=jobs;trusted_connection=yes;encrypt=true;TrustServerCertificate=true",
+  "server": "http://localhost:8080/"
 }

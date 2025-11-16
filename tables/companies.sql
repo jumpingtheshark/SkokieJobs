@@ -5,5 +5,6 @@ CREATE TABLE [dbo].[Companies](
     [VillageID] [int] NULL,
     [AddressLine1] [varchar](max) NULL,
     [AddressLine2] [varchar](max) NULL,
-    [Zip] [varchar](10) NULL
+    [Zip] [varchar](10) NULL,
+    [Description] [varchar](max) NULL
     )

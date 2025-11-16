@@ -12,6 +12,17 @@ var UIPaths = struct {
 	JobDetails: BaseDirPath + "UI\\JobDetails\\JobDetails.html",
 }
 
+var HTTPPaths = struct {
+	JobDetails string
+	AddCompany string
+	AddJob     string
+	AllJobs    string
+}{
+	AllJobs:    Config.Server + "/alljobs",
+	AddCompany: Config.Server + "/addCompany",
+	AddJob:     Config.Server + "/addJob",
+	JobDetails: Config.Server + "/job/",
+}
 var CFG map[string]string
 
 var ConfigPath = BaseDirPath + "\\config.json"
@@ -21,6 +32,7 @@ var CurDir, _ = os.Getwd()
 type Configuration struct {
 	Dsn    string
 	Curdir string
+	Server string
 }
 
 var Config Configuration
@@ -43,6 +55,7 @@ func RunConfig() {
 	Config = Configuration{
 		Dsn:    CFG["dsn"],
 		Curdir: CFG["curdir"],
+		Server: CFG["server"],
 	}
 	// Access values directly
 	fmt.Println("DSN:", CFG["dsn"])
