@@ -15,3 +15,19 @@ order by j.id desc
 `
 	return s
 }
+
+func AllCompanies() string {
+	query := `
+select 
+companyID,
+CompanyName,
+VillageName
+from 
+companies c
+inner join 
+villages v on 
+c.villageID=v.VillageID
+`
+	return query
+
+}
