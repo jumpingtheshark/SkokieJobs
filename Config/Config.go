@@ -7,21 +7,29 @@ import (
 )
 
 var UIPaths = struct {
-	JobDetails string
+	JobDetails     string
+	CompaniesInner string
+	CompaniesOuter string
 }{
-	JobDetails: BaseDirPath + "UI\\JobDetails\\JobDetails.html",
+	JobDetails:     BaseDirPath + "UI\\JobDetails\\JobDetails.html",
+	CompaniesInner: BaseDirPath + "UI\\Companies\\inner.html",
+	CompaniesOuter: BaseDirPath + "UI\\Companies\\outer.html",
 }
 
 var HTTPPaths = struct {
-	JobDetails string
-	AddCompany string
-	AddJob     string
-	AllJobs    string
+	JobDetails   string
+	AddCompany   string
+	AddJob       string
+	AllJobs      string
+	AllCompanies string
+	NewJob       string
 }{
-	AllJobs:    Config.Server + "/alljobs",
-	AddCompany: Config.Server + "/addCompany",
-	AddJob:     Config.Server + "/addJob",
-	JobDetails: Config.Server + "/job/",
+	AllJobs:      Config.Server + "/alljobs",
+	AddCompany:   Config.Server + "/addCompany",
+	AddJob:       Config.Server + "/addJob",
+	JobDetails:   Config.Server + "/job/",
+	AllCompanies: Config.Server + "/AllCompanies",
+	NewJob:       Config.Server + "/newJob/",
 }
 var CFG map[string]string
 
