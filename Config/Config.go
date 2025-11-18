@@ -10,10 +10,12 @@ var UIPaths = struct {
 	JobDetails     string
 	CompaniesInner string
 	CompaniesOuter string
+	NewJob         string
 }{
 	JobDetails:     BaseDirPath + "UI\\JobDetails\\JobDetails.html",
 	CompaniesInner: BaseDirPath + "UI\\Companies\\inner.html",
 	CompaniesOuter: BaseDirPath + "UI\\Companies\\outer.html",
+	NewJob:         BaseDirPath + "UI\\NewJob\\newJob.html",
 }
 
 var HTTPPaths = struct {
@@ -23,6 +25,7 @@ var HTTPPaths = struct {
 	AllJobs      string
 	AllCompanies string
 	NewJob       string
+	NewJobPost   string
 }{
 	AllJobs:      Config.Server + "/alljobs",
 	AddCompany:   Config.Server + "/addCompany",
@@ -30,6 +33,7 @@ var HTTPPaths = struct {
 	JobDetails:   Config.Server + "/job/",
 	AllCompanies: Config.Server + "/AllCompanies",
 	NewJob:       Config.Server + "/newJob/",
+	NewJobPost:   Config.Server + "/newJobPost",
 }
 var CFG map[string]string
 

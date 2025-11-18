@@ -14,6 +14,8 @@ func RunServer() {
 	http.HandleFunc("/addCompany", AddCompany)
 	http.HandleFunc("/addJob", AddJob)
 	http.HandleFunc("/AllCompanies", AllCompanies)
+	http.HandleFunc("/newJob/", NewJob)
+	http.HandleFunc("/NewJobPost", NewJobPost)
 
 	http.ListenAndServe(":8080", nil)
 }

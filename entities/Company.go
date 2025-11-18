@@ -15,8 +15,8 @@ type Company struct {
 	Zip          string
 }
 
-func (c *Company) LooadMe() {
-	query := c.SelectString()
+func (c *Company) LoadMe() {
+	query := c.SelectString(c.Id)
 	dbRow := utilsDB.GetRows(query)
 	c.SetValues(dbRow)
 
@@ -32,7 +32,7 @@ func (c *Company) SetValues(dbRow *sql.Rows) {
 
 	}
 }
-func (c *Company) SelectString() string {
+func (c *Company) SelectString(companyID string) string {
 	query := `
 select 
 companyID,
@@ -44,5 +44,6 @@ inner join
 villages v on 
 c.villageID=v.VillageID
 `
+	query = query + " where companyID = " + companyID
 	return query
 }

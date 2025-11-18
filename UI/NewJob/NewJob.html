@@ -1,0 +1,63 @@
+<html>
+<body>
+<h2>New Job</h2>
+
+<form method="post" action="http://localhost:8080/NewJobPost">
+
+   Company Name: &nbsp
+    <input id="companyname"
+           readonly="true"
+           name="companyname"
+           value="$companyname">
+</input>
+    <br/>
+    Company ID: &nbsp
+
+        <input id="companyID"
+               name="companyID"
+               readonly="true"
+        value="$companyid">
+        </input>
+
+    <br/>
+    <br/>
+    <label>
+        Job Title: <input name="jobTitle">
+    </label>
+    <br/>
+    <br/>
+    <label>
+        Email: <input name="email" id="email">
+    </label>
+
+    <br/>
+    <br/>
+    <label>Description:<br/>
+        <textarea name="jobDescription" rows="6" cols="60">
+        </textarea>
+    </label>
+    <br/>
+    <br/>
+
+
+    <br/>
+    <br/>
+    <label>Original URL:<br/>
+        <textarea name="postingURL"
+                  id="postingURL" rows="2" cols="60">
+        </textarea>
+    </label>
+    <br/>
+    <br/>
+
+
+
+
+    <button type="submit">Add</button>
+</form>
+
+<p>
+    <a href="/allcompanies">Back to all jobs</a>
+</p>
+</body>
+</html>`
